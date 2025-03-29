@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import math
 import time
+import random
 
 class GraphApp:
     def __init__(self, root):
@@ -231,11 +232,37 @@ class GraphApp:
             {'from': 2, 'to': 6, 'weight': 3},
             {'from': 3, 'to': 6, 'weight': 1}
         ]
+        random.seed(42)
+
+        nodes_15 = [{'id': i, 'x': random.randint(50, 350), 'y': random.randint(50, 350)} for i in range(1, 16)]
+
+        edges_15 = []
+        for i in range(1, 16):
+            for j in range(i + 1, 16):
+                if random.random() < 0.7:  
+                    weight = random.randint(1, 10)
+                    edges_15.append({'from': i, 'to': j, 'weight': weight})
+                    edges_15.append({'from': j, 'to': i, 'weight': weight})
+
+
+        nodes_30 = [{'id': i, 'x': random.randint(50, 550), 'y': random.randint(50, 550)} for i in range(1, 31)]
+
+        edges_30 = []
+        for i in range(1, 31):
+            for j in range(i + 1, 31):
+                if random.random() < 0.9: 
+                    weight = random.randint(1, 10)
+                    edges_30.append({'from': i, 'to': j, 'weight': weight})
+                    edges_30.append({'from': j, 'to': i, 'weight': weight})
+
+
+        # default_nodes = nodes_15
+        # default_edges = edges_15
 
         for node in default_nodes:
             self.create_node(node['x'], node['y'])
 
-            self.canvas.create_text(node['x'], node['y'] - 25, text=node['label'], fill="black")
+            self.canvas.create_text(node['x'], node['y'] - 25, fill="black")
 
         for edge in default_edges:
             from_node = next(n for n in self.nodes if n['id'] == edge['from'])
